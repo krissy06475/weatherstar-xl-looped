@@ -76,7 +76,10 @@ function displayLDL(idx){
             $('.ldl .warning-crawl').fadeIn(0);
             console.log(weatherInfo.bulletin.crawlAlert.alert.significance);
             // Use the appropriate background image based on significance
-            $('.ldl .warning-crawl').css('background-image', `url(images/crawl/alert_${weatherInfo.bulletin.crawlAlert.alert.significance}.png)`);
+            // Use warning background for both W and L alerts
+            var significance = weatherInfo.bulletin.crawlAlert.alert.significance;
+            if (significance === "L") significance = "W"; // Use warning background for local alerts
+            $('.ldl .warning-crawl').css('background-image', `url(images/crawl/alert_${significance}.png)`);
             $('.ldl .warning-crawl .title').text(weatherInfo.bulletin.crawlAlert.alert.name);
             $('.ldl .warning-crawl .marquee').text(weatherInfo.bulletin.crawlAlert.alert.description.toUpperCase());
             $('.ldl .warning-crawl .marquee').marquee({

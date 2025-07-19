@@ -59,9 +59,9 @@ function monitorAlertStatus() {
                     for(var i = 0; i < data.alerts.length; i++){
                         var expirationTime = new Date(data.alerts[i].expireTimeLocal);
                         if(expirationTime > new Date()) {
-                            // Determine priority (W=4, S=3, Y=2, A=1)
+                            // Determine priority (W/L=4, S=3, Y=2, A=1)
                             var priority;
-                            if (data.alerts[i].significance === "W") {
+                            if (data.alerts[i].significance === "W" || data.alerts[i].significance === "L") {
                                 priority = 4;
                             } else if (data.alerts[i].significance === "S") {
                                 priority = 3; // Special Weather Statement gets higher priority than Y
@@ -87,7 +87,7 @@ function monitorAlertStatus() {
                         // Only switch to new alert if it's higher priority or current alert is no longer active
                         if(!currentAlertStillActive || 
                            (currentAlertKey !== highestPriorityAlert.detailKey && 
-                            highestPriority > (weatherInfo.bulletin.crawlAlert.alert.significance === "W" ? 4 : 
+                            highestPriority > (weatherInfo.bulletin.crawlAlert.alert.significance === "W" || weatherInfo.bulletin.crawlAlert.alert.significance === "L" ? 4 : 
                                              weatherInfo.bulletin.crawlAlert.alert.significance === "S" ? 3 :
                                              weatherInfo.bulletin.crawlAlert.alert.significance === "Y" ? 2 : 
                                              weatherInfo.bulletin.crawlAlert.alert.significance === "A" ? 1 : 0))) {
@@ -809,9 +809,9 @@ function showSlides() {
                     $('.local-forecast .slide .period').text(periodName);
                     $('.local-forecast .slide .description').text(weatherInfo.dayDesc.days[2].desc);
                 }, slideSettings.slideDelay * 2);
-                setTimeout(() => {
-                    $('.local-forecast').fadeOut(0);
-                    slideCallBack();
+                        setTimeout(() => {
+                        $('.local-forecast').fadeOut(0);
+                        slideCallBack();
                 }, slideSettings.slideDelay * 3);
             } catch (error) {
                 console.error(error);
@@ -821,9 +821,9 @@ function showSlides() {
                     $('.local-forecast .noreport').fadeIn(0);
                     $('.local-forecast .city-name').fadeIn(0);
                 }, 900)
-                setTimeout(() => {
-                    $('.local-forecast').fadeOut(0);
-                    slideCallBack();
+                        setTimeout(() => {
+                        $('.local-forecast').fadeOut(0);
+                        slideCallBack();
                 }, slideSettings.slideDelay * 3);
             }
         },
